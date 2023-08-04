@@ -22,7 +22,7 @@ const formDonut = () => {
 const fryDonut = (input) => {
     return new Promise((result, reject) => {
         if (!input) return reject(new Error("Not finish forming donut"));
-        if (oil < 10) return reject(new Error("Not enough oil"));
+        if (oil <= 10) return reject(new Error("Not enough oil"));
         oil -= 5;
         console.log("Fried donut");
         result("Done");
@@ -47,22 +47,28 @@ const coveredByTopping = (input) => {
         if (topping <= 0) return reject(new Error("Not enough topping"));
         topping -= 1;
         console.log("Done topping covering");
-        result("Ready to serve: 1 Donut");
+        result("Done: 1 Donut");
     });
 };
 
 // Làm bánh donut: Xử lý bất đồng bộ Promise
 const makeDonutPromise = () => {
     return formDonut()
-    .then(res => fryDonut(res))
-    .then(res => coveredByChoco(res))
-    .then(res =>  coveredByTopping(res))
+        .then(res => fryDonut(res))
+        .then(res => coveredByChoco(res))
+        .then(res => coveredByTopping(res))
 };
 
-// Đơn hàng 10 bánh donut
-for (let i = 0; i<=10; i++) {
-    makeDonutPromise().then((data) => console.log(data)).catch(err => console.log(err + ''));
-};
+
+///Tạo đơn hàng
+//Cần xử lý dừng vòng lặp khi  Promise trả về err
+const orderDonutPromise = (num) => {
+    for (let i = 0; i < num; i++) {
+        makeDonutPromise().then((data) => console.log(data)).catch(err => console.log(err + ''));
+    };
+}
+
+orderDonutPromise(2);
 
 // Làm bánh donut: Xử lý bất đồng bộ Async/Await
 const makeDonutAsync = async () => {
@@ -71,14 +77,28 @@ const makeDonutAsync = async () => {
         let fryD = await fryDonut(formD);
         let coverChoco = await coveredByChoco(fryD);
         let coverTopping = await coveredByTopping(coverChoco);
-        console.log("Ready to serve: 1 Donut");
+        console.log(coverTopping);
     } catch (err) {
         console.log(err + '');
     };
 };
 
 
-// Đơn hàng 10 bánh donut
-for (let i = 0; i <= 10; i++) {
-    makeDonutAsync();
+//Tạo đơn hàng
+//Cần xử lý dừng vòng lặp khi  Async/Await trả về err
+const orderDonutAsync = async (num) => {
+    let count = 0;
+    try {
+        for (; count < num; count++) {
+            let doing = await makeDonutAsync();
+            // if (doing.match(/^Error/)) break;
+        }
+        console.log(`Ready to server: ${count} donut(s)`);
+    } catch (err) {
+        console.log(err + '');
+    };
 };
+
+
+orderDonutAsync(2);
+

@@ -1,0 +1,7 @@
+
+Charater A: Hello. I am A.
+Charater B: Hello. I am B.
+
+Charater A: Nice to meet you.
+
+Charater B: Nice to meet you.
