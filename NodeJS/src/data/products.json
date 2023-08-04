@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Iphone14"
+    },
+    {
+        "id": 2,
+        "name": "Iphone15"
+    },
+    {
+        "id": 3,
+        "name": "SamSung Fold"
+    },
+    {
+        "id": 4,
+        "name": "Note"
+    },
+    {
+        "id": 5,
+        "name": "Vivo"
+    },
+    {
+        "id": 6,
+        "name": "BlackBery"
+    }
+]
