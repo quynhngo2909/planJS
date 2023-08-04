@@ -9,8 +9,8 @@ Title Thực hành Node.js
 
 Introduction Demo các chức năng:
     1.Xử lý bất đồng bộ  - File asynchronous.js
-    2.Đọc ghi file bằng JS
-    3.Khởi tạo một server cơ bản bằng Node.js
+    2.Đọc ghi file bằng JS - File readWrite.js
+    3.Khởi tạo một server cơ bản bằng Node.js - File httpServer.js
     4.ejs
 
 Install
