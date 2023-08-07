@@ -1,4 +1,4 @@
-
+undefined
 Charater A: Hello. I am A.
 Charater B: Hello. I am B.
 

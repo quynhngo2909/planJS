@@ -3,8 +3,11 @@ const productsController = require("../controllers/productsController");
 
 const productsRouter = express.Router();
 
-productsRouter.get("/list", productsController.getListProducts)
-productsRouter.get("/home", productsController.getListProducts);
 productsRouter.get("/", productsController.getListProducts);
+productsRouter.get("/list", productsController.getListProducts);
+
+productsRouter.get("**", (req, res) => {
+    res.render("err.ejs");
+});
 
 module.exports = productsRouter;

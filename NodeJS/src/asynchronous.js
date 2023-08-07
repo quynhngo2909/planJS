@@ -8,46 +8,46 @@ let topping = 50;
 
 // 1.Tạo hình bánh
 const formDonut = () => {
-    return new Promise((result, reject) => {
+    return new Promise((resolve, reject) => {
         if (powder <= 0 || yeast <= 0 || water <= 0) return reject(new Error("Not enough ingredient"));
         powder -= 10;
         yeast -= 1;
         water -= 5;
         console.log("Formed donut");
-        result("Done");
+        resolve("Done");
     })
 };
 
 // 2.Chiên bánh
 const fryDonut = (input) => {
-    return new Promise((result, reject) => {
+    return new Promise((resolve, reject) => {
         if (!input) return reject(new Error("Not finish forming donut"));
         if (oil <= 10) return reject(new Error("Not enough oil"));
         oil -= 5;
         console.log("Fried donut");
-        result("Done");
+        resolve("Done");
     });
 };
 
 // 3.Phủ chocolate
 const coveredByChoco = (input) => {
-    return new Promise((result, reject) => {
+    return new Promise((resolve, reject) => {
         if (!input) return reject(new Error("Not finish chocolate covering"));
         if (chocolateSauce <= 0) return reject(new Error("Not enough chocolate"));
         chocolateSauce -= 1;
         console.log("Done chocolate covering");
-        result("Done");
+        resolve("Done");
     });
 };
 
 // 4.Rắc topping cốm
 const coveredByTopping = (input) => {
-    return new Promise((result, reject) => {
+    return new Promise((resolve, reject) => {
         if (!input) return reject(new Error("Not finish topping covering"));
         if (topping <= 0) return reject(new Error("Not enough topping"));
         topping -= 1;
         console.log("Done topping covering");
-        result("Done: 1 Donut");
+        resolve("Done: 1 Donut");
     });
 };
 
@@ -97,8 +97,8 @@ const orderDonutAsync = async (num) => {
     } catch (err) {
         console.log(err + '');
     };
+    console.log(count);
 };
-
 
 orderDonutAsync(2);
 
