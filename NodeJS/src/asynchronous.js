@@ -86,10 +86,10 @@ const makeDonutAsync = async () => {
 
 //Tạo đơn hàng
 //Cần xử lý dừng vòng lặp khi  Async/Await trả về err
-const orderDonutAsync = async (num) => {
+const orderDonutAsync = async (donutQty) => {
     let count = 0;
     try {
-        for (; count < num; count++) {
+        for (; count < donutQty; count++) {
             let doing = await makeDonutAsync();
             // if (doing.match(/^Error/)) break;
         }
