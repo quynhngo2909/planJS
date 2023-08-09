@@ -5,11 +5,11 @@ const rootRouter = express.Router();
 
 rootRouter.use("/products", productsRouter);
 rootRouter.get("", (req, res) => {
-    res.render("home.ejs");
+    res.status(200).send();
 });
 
 rootRouter.get("**", (req, res) => {
-    res.render("err.ejs");
+    res.status(404).send();
 });
 
 module.exports = rootRouter;

@@ -3,53 +3,69 @@ const productsService = require("../service/productsService");
 const getListProducts = async (req, res) => {
     try {
         const products = await productsService.getListProducts();
+        if (products.length === 0) {
+            res.status(200).send("The product list is empty");
+        }
         res.status(200).send(products);
     }
     catch {
-        res.render("err.ejs");
+        res.status(404).send();
     }
 };
 
 const getProductDetail = async (req, res) => {
     try {
-        const product = await productsService.getProductDetail(req, res);
+        const product = await productsService.getProductDetail(req.params.productId);
         res.status(200).send(product);
-        console.log(res.body);
     }
     catch {
-        res.render("err.ejs");
+        res.status(404).send();
     }
 };
 
 const createProduct = async (req, res) => {
     try {
-        const newProduct = await productsService.createProduct(req, res);
+        const newProduct = {
+            name: req.body.name,
+            brand: req.body.brand,
+            image: req.body.image,
+            price: req.body.price,
+        };
+
+        await productsService.createProduct(newProduct);
         res.status(201).send("New product was created: " + `${newProduct.name}`);
     }
     catch {
-        res.render("err.ejs");
+        res.status(500).send();
     }
 };
 
 const updateProduct = async (req, res) => {
     try {
-        await getProductDetail(req, res);
-        await productsService.updateProduct(req, res);
+        const productId = req.params.productId;
+        const updatedProduct = {
+            name: req.body.name,
+            brand: req.body.brand,
+            image: req.body.image,
+            price: req.body.price,
+        };
+        await productsService.getProductDetail(productId);
+        await productsService.updateProduct(productId, updatedProduct);
         res.status(200).send("Product was updated.");
     }
     catch {
-        res.render("err.ejs");
+        res.status(500).send();
     }
 };
 
 const deleteProduct = async (req, res) => {
-    console.log("delete controller")
     try {
-        await productsService.deleteProduct(req, res);
+        await productsService.getProductDetail(productId);
+        await productsService.deleteProduct(req.params.productId);
         res.status(200).send("Product was deleted.");
     }
     catch {
-        res.render("err.ejs");
+        res.status(500).send();
     }
 };
 
