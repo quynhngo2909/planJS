@@ -9,16 +9,16 @@ const getProductDetail = async (productId) => {
 };
 
 const createProduct = async (newProduct) => {
-    return ProductsModel.create(newProduct);
+    await ProductsModel.create(newProduct);
 };
 
 
 const updateProduct = async (productId, updatedProduct) => {
-    return await ProductsModel.updateOne({ _id: productId }, updatedProduct);
+    await ProductsModel.updateOne({ _id: productId }, updatedProduct);
 };
 
 const deleteProduct = async (productId) => {
-    return await ProductsModel.deleteOne({ _id: productId});
+    await ProductsModel.deleteOne({ _id: productId});
 };
 
 const productsService = {

@@ -35,8 +35,8 @@ const createProduct = async (req, res) => {
         await productsService.createProduct(newProduct);
         res.status(201).send("New product was created: " + `${newProduct.name}`);
     }
-    catch {
-        res.status(500).send();
+    catch (err) {
+        res.status(500).send(err + "");
     }
 };
 
@@ -53,19 +53,19 @@ const updateProduct = async (req, res) => {
         await productsService.updateProduct(productId, updatedProduct);
         res.status(200).send("Product was updated.");
     }
-    catch {
-        res.status(500).send();
+    catch (err) {
+        res.status(500).send(err + "");
     }
 };
 
 const deleteProduct = async (req, res) => {
     try {
-        await productsService.getProductDetail(productId);
+        await productsService.getProductDetail(req.params.productId);
         await productsService.deleteProduct(req.params.productId);
         res.status(200).send("Product was deleted.");
     }
-    catch {
-        res.status(500).send();
+    catch (err) {
+        res.status(500).send(err + "");
     }
 };
 
