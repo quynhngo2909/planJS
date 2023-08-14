@@ -17,12 +17,11 @@ const saveBrand = async (req, res) => {
         const newBrand = new Brand();
         newBrand.name = req.body.name.toUpperCase();
         const brand = await brandServices.getBrandByName(newBrand.name);
-        if (brand === null) {
-            await brandServices.saveBrand(newBrand);
-            res.status(201).send();
-        } else {
-            res.status(400).send("The brand " + newBrand.name + " exists!");
-        } 
+        if (brand)
+            return res.status(400).send("The brand " + newBrand.name + " exists!");
+
+        await brandServices.saveBrand(newBrand);
+        res.status(201).send();
     }
     catch (err) {
         console.log(err + "");
@@ -35,13 +34,12 @@ const updatedBrand = async (req, res) => {
         const updatedBrand = new Brand();
         const brandId = req.body.id;
         const brand = await brandServices.getBrandById(brandId);
-        if (brand) {
-            updatedBrand.name = req.body.name.toUpperCase();
-            await brandServices.updateBrand(brandId, updatedBrand);
-            res.status(200).send();
-        } else {
-            res.status(400).send("The brand " + req.body.name + " does not exist!");
-        }
+        if (!brand)
+            return res.status(400).send("The brand " + req.body.name + " does not exist!");
+
+        updatedBrand.name = req.body.name.toUpperCase();
+        await brandServices.updateBrand(brandId, updatedBrand);
+        res.status(200).send();
     }
     catch (err) {
         console.log(err + "");
@@ -53,14 +51,13 @@ const deleteBrand = async (req, res) => {
     try {
         const brandId = req.params.id;
         const brand = await brandServices.getBrandById(brandId);
-        if (brand) {
-            await brandServices.deleteBrand(brand);
-            res.status(200).send();
-        } else {
-            res.status(400).send("The brand " + req.body.name + " does not exist!");
-        }
+        if (!brand)
+            return res.status(400).send("The brand " + req.body.name + " does not exist!");
+
+        await brandServices.deleteBrand(brand);
+        res.status(200).send();
     }
-    catch  (err) {
+    catch (err) {
         console.log(err + "");
         res.status(400).send();
     }

@@ -1,12 +1,11 @@
 import * as express from "express";
 import { dbCreateConnection } from './orm/dbCreateConnection';
 import * as dotenv from "dotenv";
-import { rootRouter } from "./routers/index";
-
+import { rootRouter } from "./routers";
 
 dotenv.config();
 
-const main = async () => {
+const startServer = async () => {
     try {
         await dbCreateConnection();
     
@@ -22,7 +21,8 @@ const main = async () => {
     }
     catch (err) {
         console.log(err + "");
+        process.exit(1);
     }
 };
 
-main();
+startServer();

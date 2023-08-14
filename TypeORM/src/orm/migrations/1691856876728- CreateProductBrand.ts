@@ -3,27 +3,11 @@ import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm
 export class CreateProductBrand1691856876728 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.createTable(
-            new Table({
-                name: "brand",
-                columns: [
-                    {
-                        name: "id",
-                        type: "int",
-                        isPrimary: true,
-                        isGenerated: true,
-                        generationStrategy: 'increment',
-                        isNullable: false,
-                    },
-                    {
-                        name: "name",
-                        type: "varchar",
-                        isUnique: true,
-                    },
-                ],
-            }),
-            true,
-        );
+        await queryRunner.query(
+            `create table brand (
+                id int primary key auto_increment,
+                name varchar(150) not null unique)`,
+        )
 
         await queryRunner.createTable(
             new Table({

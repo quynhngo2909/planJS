@@ -19,12 +19,11 @@ const saveProduct = async (req, res) => {
         newProduct.price = req.body.price;
         newProduct.brand = req.body.brand;
         const product = await productService.getProductByName(newProduct.name);
-        if (product === null) {
-            await productService.saveProduct(newProduct);
-            res.status(201).send();
-        } else {
-            res.status(400).send("The product " + newProduct.name + " exists!");
-        }
+        if (product)
+            return res.status(400).send("The product " + newProduct.name + " exists!");
+
+        await productService.saveProduct(newProduct);
+        res.status(201).send();
     }
     catch (err) {
         console.log(err + "");
@@ -49,15 +48,14 @@ const updatedProduct = async (req, res) => {
         const updatedProduct = new Product();
         const productId = req.body.id;
         const product = await productService.getProductById(productId);
-        if (product) {
-            updatedProduct.name = req.body.name.toUpperCase();
-            updatedProduct.price = req.body.price;
-            updatedProduct.brand = req.body.brand;
-            await productService.updateProduct(productId, updatedProduct);
-            res.status(200).send();
-        } else {
-            res.status(400).send("The product " + req.body.name + " does not exist!");
-        }
+        if (!product)
+            return res.status(400).send("The product " + req.body.name + " does not exist!");
+
+        updatedProduct.name = req.body.name.toUpperCase();
+        updatedProduct.price = req.body.price;
+        updatedProduct.brand = req.body.brand;
+        await productService.updateProduct(productId, updatedProduct);
+        res.status(200).send();
     }
     catch (err) {
         console.log(err + "");
@@ -69,14 +67,13 @@ const deleteProduct = async (req, res) => {
     try {
         const productId = req.params.id;
         const product = await productService.getProductById(productId);
-        if (product) {
-            await productService.deleteProduct(product);
-            res.status(200).send();
-        } else {
-            res.status(400).send("The product " + req.body.name + " does not exist!");
-        }
+        if (!product)
+            return res.status(400).send("The product " + req.body.name + " does not exist!");
+        
+        await productService.deleteProduct(product);
+        res.status(200).send();
     }
-    catch  (err) {
+    catch (err) {
         console.log(err + "");
         res.status(400).send();
     }
