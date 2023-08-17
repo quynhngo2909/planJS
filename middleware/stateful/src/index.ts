@@ -23,6 +23,7 @@ const startServer = async () => {
                 secret: process.env.SESSION_SECRET_KEY,
                 resave: false,
                 saveUninitialized: false,
+                cookie: { maxAge: 60 * 60 * 1000 }
             })
         );
 
@@ -56,8 +57,6 @@ const startServer = async () => {
         });
 
         passport.deserializeUser(async (id, done) => {
-
-            console.log(id);
             const user = await getUserById(id);
             done(null, user);
         });

@@ -67,6 +67,7 @@ const updatedProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
     try {
         const productId = req.params.id;
+        console.log(productId);
         const product = await productService.getProductById(productId);
         if (!product)
             return res.status(400).send("The product " + req.body.name + " does not exist!");

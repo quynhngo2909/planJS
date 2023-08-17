@@ -2,7 +2,7 @@ import * as passport from "passport";
 
 export const auth = (...roles) => {
   return [
-    passport.authenticate('local'),
+    // passport.authenticate('local'),
     (req, res, next) => {
       if (!req.isAuthenticated()) {
         console.log("auth: " + req.user)
