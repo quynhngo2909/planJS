@@ -44,7 +44,7 @@ const startServer = async () => {
                 const isMatch = await bcrypt.compare(password, user.password);
 
                 if (isMatch) {
-                    return done(null, user); 
+                    return done(null, user);
                 }
                 return done(null, false, { message: "Password is invalid. Try again?" });
             })
