@@ -3,6 +3,7 @@ import * as express from "express";
 import * as passport from "passport";
 import * as LocalStrategy from "passport-local";
 import { ExtractJwt, Strategy } from "passport-jwt";
+import * as bcrypt from "bcryptjs";
 import { dbCreateConnection } from './orm/dbCreateConnection';
 import { rootRouter } from "./routers";
 import { getUserByEmail } from "./services/userServices";
@@ -15,7 +16,7 @@ const startServer = async () => {
 
         const app = express();
         app.use(express.urlencoded({ extended: false }));
-        app.use(express.json());
+        app.use(express.json({limit: "50kb"}));
        
         app.use(passport.initialize());
 
@@ -32,7 +33,7 @@ const startServer = async () => {
 
                 // const isMatch = await bcrypt.compare(password, user.password);
 
-                if (password == user.password) {
+                if (password === user.password) {
                     console.log(user);
                     return done(null, user); // req.user = user;
                 }
@@ -45,7 +46,6 @@ const startServer = async () => {
                 secretOrKey: process.env.JWT_SECRET_KEY,
                 jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             }, async (payload, done) => {
-                console.log('payload received', payload);
                 const user = await getUserByEmail(payload.usename);
                 console.log('user', JSON.stringify(user));
                 if (!user) {

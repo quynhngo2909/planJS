@@ -8,6 +8,6 @@ import { auth } from "../../middlewares/auth";
 export const routerv1 = Router();
 
 routerv1.use("/brands", brandRouters);
-routerv1.use("/products",...auth("ADMIN", "USER"), productRouters);
+routerv1.use("/products", ...auth("ADMIN", "USER"), productRouters);
 
 routerv1.post("/login", passport.authenticate("local", {session: false}), login);
