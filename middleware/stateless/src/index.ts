@@ -16,8 +16,8 @@ const startServer = async () => {
 
         const app = express();
         app.use(express.urlencoded({ extended: false }));
-        app.use(express.json({limit: "50kb"}));
-       
+        app.use(express.json({ limit: "50kb" }));
+
         app.use(passport.initialize());
 
         passport.use(
@@ -31,10 +31,9 @@ const startServer = async () => {
                     return done(null, false, { message: "Username is not available" });
                 }
 
-                // const isMatch = await bcrypt.compare(password, user.password);
+                const isMatch = await bcrypt.compare(password, user.password);
 
-                if (password === user.password) {
-                    console.log(user);
+                if (isMatch) {
                     return done(null, user); // req.user = user;
                 }
                 return done(null, false, { message: "Password is invalid. Try again?" });
