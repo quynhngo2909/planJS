@@ -1,4 +1,5 @@
 import { Router } from "express";
+import * as express from "express";
 import * as brandControllers from "../../controllers/brandControllers";
 import { auth } from "../../middlewares/auth";
 
