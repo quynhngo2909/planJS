@@ -5,6 +5,9 @@ const userRepository = config.getRepository(User);
 
 const getUserByEmail = async (userEMail) => {
     return await userRepository.findOne({
+        relations: {
+            role: true,
+        },
         where: {
             email: userEMail,
         },
@@ -13,6 +16,9 @@ const getUserByEmail = async (userEMail) => {
 
 const getUserById = async (userId) => {
     return await userRepository.findOne({
+        relations: {
+            role: true,
+        },
         where: {
             id: userId,
         },

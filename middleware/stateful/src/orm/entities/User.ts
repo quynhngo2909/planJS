@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "./Role";
-import { UserRole } from "./UserRole";
+import { SharedClass } from "./SharedClass";
 
 @Entity({name: "user"})
 export class User extends BaseEntity {
@@ -16,12 +16,7 @@ export class User extends BaseEntity {
     @Column()
     password: string;
 
-    @Column()
-    role: string;
-
-    @CreateDateColumn({ type: "timestamp", default: () => "current_timestamp(6)" })
-    create_at: Date;
-
-    @UpdateDateColumn({ type: "timestamp" })
-    update_at: Date;
+    @ManyToOne(() => Role)
+    @JoinColumn({name: "id"})
+    role: Role;
 }

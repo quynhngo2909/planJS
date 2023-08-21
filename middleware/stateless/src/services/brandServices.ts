@@ -34,7 +34,7 @@ const updateBrand =async (brandId, updatedBrand) => {
 };
 
 const deleteBrand = async (deleteBrand) => {
-    brandRepository.remove(deleteBrand);
+    await brandRepository.remove(deleteBrand);
 };
 
 

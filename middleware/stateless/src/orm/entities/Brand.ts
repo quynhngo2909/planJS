@@ -1,16 +1,11 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, CreateDateColumn, UpdateDateColumn, Timestamp } from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { SharedClass } from "./SharedClass";
 
 @Entity()
-export class Brand extends BaseEntity {
+export class Brand extends SharedClass {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column({type: "varchar", length: 150, nullable: false, unique: true})
     name: string;
-
-    @CreateDateColumn({type: "timestamp", default: () => "current_timestamp(6)"})
-    create_at: Date;
-
-    @UpdateDateColumn({type: "timestamp"})
-    update_at: Date;
 }

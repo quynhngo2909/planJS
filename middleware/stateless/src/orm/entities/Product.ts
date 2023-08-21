@@ -1,8 +1,9 @@
-import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import {Brand} from "./Brand";
+import { SharedClass } from "./SharedClass";
 
 @Entity()
-export class Product extends BaseEntity{
+export class Product extends SharedClass{
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -14,10 +15,4 @@ export class Product extends BaseEntity{
 
     @ManyToOne(() => Brand)
     brand: Brand;
-
-    @CreateDateColumn({type: "timestamp", default: () => "current_timestamp(6)"})
-    create_at: Date;
-
-    @UpdateDateColumn({type: "timestamp"})
-    update_at: Date;
 }

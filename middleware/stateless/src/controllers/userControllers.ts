@@ -27,18 +27,20 @@ const getUserById = async (req, res) => {
 
 const login = (req, res) => {
     const user = req.user;
-    console.log(req.body);
-    console.log(user);
     const token = jwt.sign({ username: user.email }, process.env.JWT_SECRET_KEY, {
       expiresIn: process.env.JWT_EXPIRED_IN,
     });
     return res.status(200).json({ token });
   };
 
-
+const logout = (req, res) => {
+    // res.clearCookie("access_token");
+    // res.json({user: {username: "", password: ""}, success: true});
+};
 
 export {
     getUserByEmail,
     getUserById,
     login,
+    logout,
 }

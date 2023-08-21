@@ -4,7 +4,7 @@ import { Product } from "../orm/entities/Product";
 const productRepository = config.getRepository(Product);
 
 const getListProducts = async () => {
-    return productRepository.find({
+    return await productRepository.find({
         relations: {
             brand: true,
         }
@@ -39,11 +39,11 @@ const updateProduct =async (productId, updatedProduct) => {
 };
 
 const saveProduct = async (newProduct) => {
-    productRepository.save(newProduct);
+    await productRepository.save(newProduct);
 };
 
 const deleteProduct = async (deleteProduct) => {
-    productRepository.remove(deleteProduct);
+    await productRepository.remove(deleteProduct);
 };
 
 export {

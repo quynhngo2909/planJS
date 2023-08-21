@@ -8,7 +8,7 @@ export const auth = (...roles) => {
         return res.status(401).send();
       }
       const user = req.user;
-      if (roles.indexOf(user.role) >= 0) {
+      if (roles.indexOf(user.role.name) >= 0) {
         next();
       } else {
         return res.status(401).send();
