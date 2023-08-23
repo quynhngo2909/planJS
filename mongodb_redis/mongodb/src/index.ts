@@ -3,8 +3,6 @@ import express from "express";
 import { rootRouter } from "./routers";
 import { connectToMongoDB } from "./configs/mongodbConnection";
 
-const path = require("path");
-
 dotenv.config();
 
 const startApp = async () => {
@@ -14,8 +12,6 @@ const startApp = async () => {
         console.log("Connected to DB.");
 
         const app = express();
-        app.set("view engine", "ejs");
-        app.set("views", path.resolve(__dirname, "views"));
 
         app.use(express.urlencoded({ extended: false }));
         app.use(express.json());
