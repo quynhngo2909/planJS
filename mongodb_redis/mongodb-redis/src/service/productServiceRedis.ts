@@ -4,7 +4,6 @@ import { redis } from "../configs/redisConnection";
 
 const productRepoRedis = new Repository(productSchemaRedis, redis);
 
-
 const saveProducts = async (productList: any) => {
     // await productRepoRedis.createIndex();
     for (const p of productList) {
@@ -20,7 +19,7 @@ const saveProducts = async (productList: any) => {
 };
 
 const getProducts = async () => {
-    return await productRepoRedis.search().return.all();
+    return await productRepoRedis.search().returnAll();
 };
 
 const getProductByKey = async (productKey: any) => {
@@ -28,7 +27,7 @@ const getProductByKey = async (productKey: any) => {
 };
 
 const getProductById = async (productId: any) => {
-    return await productRepoRedis.search().where("_id").equals(productId).return.all();
+    return await productRepoRedis.search().where("_id").eq(productId).returnAll();
 }
 export {
     saveProducts,

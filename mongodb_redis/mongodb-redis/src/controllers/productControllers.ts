@@ -5,23 +5,23 @@ const getListProducts = async (req: any, res: any) => {
     try {
         // const products = await productServices.getListProducts();
         // return res.status(200).send(products);
-
-        // const sample = await redis.hGetAll("products:01H8K67F4HKPWXR9M4TTZZ1TNP");
-        // const sample = await productServiceRedis.getProductByKey("products:01H8K67F4HKPWXR9M4TTZZ1TNP");
-        const sample = await productServiceRedis.getProductById("64d43d5454a9cc844dea6ccc");
+        
+        const sample = await productServiceRedis.getProductByKey("products:01H8K67F4HKPWXR9M4TTZZ1TNP");
+        // const sample = await productServiceRedis.getProductById("64d43d5454a9cc844dea6ccc");
         console.log(sample);
 
-        const productsRedis = await productServiceRedis.getProducts;
-        console.log("get products redis");
+        const productsRedis = await productServiceRedis.getProducts();
+        console.log("Got products redis");
+        console.log(productsRedis);
 
         if (productsRedis.length === 0) {
             console.log("productListRedis is empty");
             const products = await productServices.getListProducts();
             if (products.length === 0)
                 return res.status(200).send("The product list is empty");
-            return res.status(200).send(sample);
+            return res.status(200).send(products);
         }
-        res.status(200).send(sample);
+        res.status(200).send(productsRedis);
     }
     catch (err) {
         console.log(err + "");
