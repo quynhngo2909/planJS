@@ -11,7 +11,6 @@ const startApp = async () => {
         const MONGODB_URI = process.env.MONGODB_URI;
         await connectToMongoDB(MONGODB_URI);
         console.log("Connected to DB.");
-
     
         redis.on("error", (err) => console.log('Redis Client Error', err)) 
         await redis.connect();

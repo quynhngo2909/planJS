@@ -1,21 +1,12 @@
+import { EntityId } from "redis-om";
 import * as productServiceRedis from "../service/productServiceRedis";
 import * as productServices from "../service/productServices";
 
 const getListProducts = async (req: any, res: any) => {
     try {
-        // const products = await productServices.getListProducts();
-        // return res.status(200).send(products);
-        
-        const sample = await productServiceRedis.getProductByKey("products:01H8K67F4HKPWXR9M4TTZZ1TNP");
-        // const sample = await productServiceRedis.getProductById("64d43d5454a9cc844dea6ccc");
-        console.log(sample);
-
         const productsRedis = await productServiceRedis.getProducts();
-        console.log("Got products redis");
-        console.log(productsRedis);
 
         if (productsRedis.length === 0) {
-            console.log("productListRedis is empty");
             const products = await productServices.getListProducts();
             if (products.length === 0)
                 return res.status(200).send("The product list is empty");
@@ -31,7 +22,7 @@ const getListProducts = async (req: any, res: any) => {
 
 const getProductDetail = async (req: any, res: any) => {
     try {
-        const product = await productServices.getProductDetail(req.params.productId);
+        const product = await productServiceRedis.getProductById(req.params.productId);
         res.status(200).send(product);
     }
     catch {
@@ -48,11 +39,11 @@ const createProduct = async (req: any, res: any) => {
             price: req.body.price,
         };
 
-        const product = await productServices.getProductByName(req.body.name);
-        if (product)
+        if (await productServices.getProductByName(req.body.name))
             return res.status(400).send("The product: " + newProduct.name + " was existed.");
 
         await productServices.createProduct(newProduct);
+        await productServiceRedis.saveProducts(await productServices.getProductByName(req.body.name));
         res.status(201).send("New product was created: " + `${newProduct.name}`);
     }
     catch (err) {
@@ -85,10 +76,8 @@ const updateProduct = async (req: any, res: any) => {
 
 const deleteProduct = async (req: any, res: any) => {
     try {
-        const product = await productServices.getProductDetail(req.params.productId);
-        if (!product)
+        if (!await productServices.getProductDetail(req.params.productId))
             return res.status(400).send("The product is not existed.");
-
         await productServices.deleteProduct(req.params.productId);
         res.status(200).send("Product was deleted.");
     }
