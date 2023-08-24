@@ -1,22 +1,9 @@
 import { ProductsModel } from "../models/productsModel";
-import { Repository } from "redis-om";
-import { productSchemaRedis } from "../models/productModelRedis";
-import { redis } from "../configs/redisConnection";
-
-const productRepoRedis = new Repository(productSchemaRedis, redis);
+import * as productRepoRedis from "../service/productServiceRedis";
 
 const getListProducts = async () => {
     const productList = await ProductsModel.find();
-    for (const p of productList) {
-        let product = {
-            name: p.name,
-            brand: p.price,
-            image: p.image,
-            price: p.price,
-          }
-
-          await productRepoRedis.save(product);
-    }
+    await productRepoRedis.saveProducts(productList);
     return productList;
 };
 
@@ -25,7 +12,7 @@ const getProductDetail = async (productId: any) => {
 };
 
 const getProductByName = async (productName: string) => {
-    return await ProductsModel.findOne({name: productName});
+    return await ProductsModel.findOne({ name: productName });
 };
 
 
@@ -39,7 +26,7 @@ const updateProduct = async (productId: any, updatedProduct: any) => {
 };
 
 const deleteProduct = async (productId: any) => {
-    await ProductsModel.deleteOne({ _id: productId});
+    await ProductsModel.deleteOne({ _id: productId });
 };
 
 export {
