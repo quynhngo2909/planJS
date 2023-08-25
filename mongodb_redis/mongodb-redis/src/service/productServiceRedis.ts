@@ -7,24 +7,22 @@ const productRepoRedis = new Repository(productSchemaRedis, redis);
 const saveProducts = async (products: any) => {
     if (!Array.isArray(products)) {
         let product = {
-            _id: JSON.stringify(products._id).substring(1, 25),
             name: products.name,
-            brand: products.price,
+            brand: products.brand,
             image: products.image,
             price: products.price,
         }
-        return await productRepoRedis.save(product);
+        return await productRepoRedis.save(JSON.stringify(products._id).substring(1, 25), product);
     }
 
     for (const p of products) {
         let product = {
-            _id: JSON.stringify(p._id).substring(1, 25),
             name: p.name,
-            brand: p.price,
+            brand: p.brand,
             image: p.image,
             price: p.price,
         }
-        await productRepoRedis.save(product);
+        await productRepoRedis.save(JSON.stringify(p._id).substring(1, 25), product);
     }
 };
 
@@ -37,8 +35,13 @@ const getProductByKey = async (productKey: any) => {
     return await redis.hGetAll(productKey);
 };
 
+const getProductByName = async (productName: any) => {
+    const prodName = productName.toUpperCase();
+    return await productRepoRedis.search().where("name").equal(prodName).returnAll();
+};
+
 const getProductById = async (productId: any) => {
-    return await productRepoRedis.search().where("_id").equal(productId).returnAll();
+    return await productRepoRedis.fetch(productId);
 };
 
 const deleteProductById = async(productId: any) => {
@@ -52,4 +55,5 @@ export {
     getProductByKey,
     getProductById,
     deleteProductById,
+    getProductByName,
 }
